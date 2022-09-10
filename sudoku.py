@@ -26,7 +26,7 @@ class Sudoku:
     def __init__(self, sudoku_x=9, sudoku_y=9):
         self.sudoku_x = sudoku_x
         self.sudoku_y = sudoku_y
-        self.sudoku = ['000000000',
+        self.sudoku = ['120000000',
                        '000000000',
                        '000000000',
                        '000000000',
@@ -34,7 +34,7 @@ class Sudoku:
                        '000000000',
                        '000000000',
                        '000000000',
-                       '000000000']
+                       '900000003']
 
     def get_current_point_value(self, current_point):
         return self.sudoku[current_point.x][current_point.y]
@@ -59,7 +59,7 @@ class Sudoku:
                 block_numbers += self.sudoku[x+i][y+j]
         return block_numbers
 
-    def read_values(self):
+    def read_fixed_values(self):
         fixed = set()
 
         for x in range (0, self.sudoku_x):
@@ -68,6 +68,13 @@ class Sudoku:
                     fixed.add(str(x) + str(y))
 
         return fixed
+
+    def define_start(self):
+        for x in range (0, self.sudoku_x):
+            for y in range (0, self.sudoku_y):
+                if self.sudoku[x][y] == "0":
+                    start = str(x) + str(y)
+                    return start
 
     #def enter_field:
     #    pass
@@ -90,5 +97,8 @@ def check_conflicts(values):
                 return True
             return False
 
-s = Sudoku(9,9)
-print(str(23) in s.read_values())
+
+
+
+#s = Sudoku(9,9)
+#print(s.define_start())
