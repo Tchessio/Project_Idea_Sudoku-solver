@@ -1,32 +1,10 @@
-import math
-
-"""
-class Point:
-    def __init__(self, x=0, y=0):
-        self.x = x
-        self.y = y
-        self.parent = p
-        self.cost = math.inf
-
-    def set_parent(self, p):
-        self.parent = p
-
-    def set_cost(self, c):
-        self.cost = c
-
-    def print(self):
-        print(self.x, ' , ', self.y)
-
-"""
-
-
 
 class Sudoku:
 
     def __init__(self, sudoku_x=9, sudoku_y=9):
         self.sudoku_x = sudoku_x
         self.sudoku_y = sudoku_y
-        self.sudoku = ['120000000',
+        self.sudoku = ['250000000',
                        '000000000',
                        '000000000',
                        '000000000',
@@ -34,7 +12,7 @@ class Sudoku:
                        '000000000',
                        '000000000',
                        '000000000',
-                       '900000003']
+                       '000000000']
 
     def get_current_point_value(self, current_point):
         return self.sudoku[current_point.x][current_point.y]
@@ -59,33 +37,31 @@ class Sudoku:
                 block_numbers += self.sudoku[x+i][y+j]
         return block_numbers
 
-    def read_fixed_values(self):
-        fixed = set()
-
-        for x in range (0, self.sudoku_x):
-            for y in range (0, self.sudoku_y):
-                if self.sudoku[x][y] != "0":
-                    fixed.add(str(x) + str(y))
-
-        return fixed
-
-    def define_start(self):
-        for x in range (0, self.sudoku_x):
-            for y in range (0, self.sudoku_y):
-                if self.sudoku[x][y] == "0":
-                    start = str(x) + str(y)
-                    return start
-
-    #def enter_field:
-    #    pass
-
-    def print_sudoku(self):
-        result = ''
+    def read_empty_fields(self):
+        empty = []
         for x in range(0, self.sudoku_x):
             for y in range(0, self.sudoku_y):
-                result += self.sudoku[x][y]
-            result += '\n'
-        print(result)
+                if self.sudoku[x][y] == "0":
+                    empty.append(str(x) + str(y))
+        return empty
+
+
+
+    def sudoku_to_string(self):
+        result = ''
+        for x in range(0, self.sudoku_x):
+                result += self.sudoku[x]
+        return result
+
+
+    def check_solution(self):
+        solved = True
+        for i in range(0,8):
+            if "0" in self.sudoku[i]:
+                solved = False
+        return solved
+
+
 
 #TODO: algorytm przeszukiwania pionowego
 #TODO: jakis intuicyjny sposob wprowadzania danych
@@ -101,4 +77,5 @@ def check_conflicts(values):
 
 
 #s = Sudoku(9,9)
-#print(s.define_start())
+#print(s.read_empty_fields())
+#print("0" in s.sudoku[1])

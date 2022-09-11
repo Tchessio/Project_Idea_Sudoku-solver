@@ -9,8 +9,8 @@ def dfs(puzzle):
     stack = deque()
 
 
-    # read the sudoku in order to assign the fixed numbers
-    fixed_numbers = puzzle.read_fixed_values()
+    # read the sudoku in order to list the empty fields
+    empty_fields = puzzle.read_empty_fields()
     start = puzzle.define_start()
 
     # wez pierwsza mozliwa cyfre do wpisania
@@ -21,21 +21,20 @@ def dfs(puzzle):
         next_try = stack.pop()
         if not next_try in solutions_tried:
             solutions_tried.append(next_try)
-            counter = 0
             for i in next_try:
-                x = counter % 9
-                y = counter // 9
-                if str(x) + str(y) in fixed_numbers:
-                    counter += 1
-                else:
-                    puzzle[x][y] = i
-                    # jezeli nie ma konfliktow
-                    if sudoku.check_conflicts(puzzle.get_row_numbers(x)):
+                field = empty_fields[i]
+                x = field[0]
+                y = field[1]
+                puzzle[x][y] = i
+                row_conflict = Sudoku.check_conflicts(puzzle.get_row_numbers(x)):
+                column_conflict = Sudoku.check_conflicts(puzzle.get_column_numbers(y)):
+                box_conflict = Sudoku.check_conflicts(puzzle.get_block_numbers(x,y)):
 
-                    elif sudoku.check_conflicts(puzzle.get_column_numbers(y)):
-                    # umiesc na staku kolejna liczbe
-                    elif sudoku.check_conflicts(puzzle.get_block_numbers(x,y)):
-                counter += 1
+                if not row_conflict and not column_conflict and not box_conflict:
+                    if puzzle.check_solution():
+
+
+
             next_try = str(int(next_try) + 1)  # umiesc na staku kolejna cyfre
 
 
