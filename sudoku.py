@@ -4,15 +4,15 @@ class Sudoku:
     def __init__(self, sudoku_x=9, sudoku_y=9):
         self.sudoku_x = sudoku_x
         self.sudoku_y = sudoku_y
-        self.sudoku = ['250000000',
-                       '000000000',
-                       '000000000',
-                       '000000000',
-                       '000000000',
-                       '000000000',
-                       '000000000',
-                       '000000000',
-                       '000000000']
+        self.sudoku = ['040000000',
+                       '020904000',
+                       '183000942',
+                       '206080000',
+                       '830000560',
+                       '000061038',
+                       '400002180',
+                       '068090407',
+                       '000040050']
 
     def get_current_point_value(self, current_point):
         return self.sudoku[current_point.x][current_point.y]
@@ -45,7 +45,17 @@ class Sudoku:
                     empty.append(str(x) + str(y))
         return empty
 
+    def read_possible_values(self, row, column):
+        possible_values = ""
+        for number in range(1, 10):
+            possible_values += str(number)
 
+        cannotuse = self.get_row_numbers(row) + self.get_column_numbers(column) + self.get_block_numbers(row,column)
+        for number in cannotuse:
+            if number != "0":
+                possible_values = possible_values.replace(str(number), "")
+
+        return possible_values
 
     def sudoku_to_string(self):
         result = ''

@@ -5,17 +5,24 @@ import sudoku
 
 def dfs(puzzle):
     solutions_tried = set()
-    fixed_numbers = set()
     stack = deque()
+    empty_fields = {}
+
+    current_state = sudoku.Sudoku.sudoku_to_string(puzzle)
+    #print(current_state)
+
+    # read the sudoku in order to list the empty fields and possible values
+    for i in puzzle.read_empty_fields():
+        empty_fields[i] = sudoku.Sudoku.read_possible_values(puzzle,int(i[0]),int(i[1]))
+
+    print(puzzle)
 
 
-    # read the sudoku in order to list the empty fields
-    empty_fields = puzzle.read_empty_fields()
-    start = puzzle.define_start()
+
 
     # wez pierwsza mozliwa cyfre do wpisania
-    stack.append('1')
-
+#    stack.append('1')
+"""
 # sprawdz czy juz to bylo testowane tak = idz dalej, nie = wez kolejna
     while stack:
         next_try = stack.pop()
@@ -57,6 +64,6 @@ def dfs(puzzle):
 
     return start
 
-
+"""
 s = sudoku.Sudoku(9,9)
 print(dfs(s))
