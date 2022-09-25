@@ -1,21 +1,31 @@
+import os
+
 
 class Sudoku:
 
-    def __init__(self, sudoku_x=9, sudoku_y=9):
-        self.sudoku_x = sudoku_x
-        self.sudoku_y = sudoku_y
-        self.sudoku = ['040000000',
-                       '020904000',
-                       '183000942',
-                       '206080000',
-                       '830000560',
-                       '000061038',
-                       '400002180',
-                       '068090407',
-                       '000040050']
+    def __init__(self, table):
+        self.sudoku_x = 9
+        self.sudoku_y = 9
+        self.sudoku = table
 
-    def get_current_point_value(self, current_point):
-        return self.sudoku[current_point.x][current_point.y]
+    def get_current_point_value(self, field):
+        return self.sudoku[int(field[0])][int(field[1])]
+
+    def update_field(self, empty_list, values):
+
+        for i in range(len(empty_list)):
+            x = int(empty_list[i][0])
+            y = int(empty_list[i][1])
+
+            if i < len(values):
+                value = values[i]
+            else:
+                value = 0
+
+            row = self.sudoku[x]
+            new_row = row[0:y] + str(value) + row[y+1:]
+            self.sudoku[x] = new_row
+        return self.sudoku
 
     def get_row_numbers(self, row_number):
         row_numbers = self.sudoku[row_number]
@@ -64,9 +74,34 @@ class Sudoku:
         return result
 
 
+    def print_sudoku(self):
+        result = '_______________' + os.linesep
+
+        for x in range(0, self.sudoku_x):
+            row = self.sudoku[x]
+            print_row = "||"
+            for i in range(0, 3):
+                for j in range(0,3):
+                    print_row += row[i * 3 + j]
+                print_row += '|'
+
+
+            result += print_row + '|' + os.linesep
+
+        result += '_______________'
+        return str(result)
+
+    def string_to_sudoku(self, string):
+        for i in range(0,9):
+            row = ""
+            for j in range(0,9):
+                row += str(string[i*9+j])
+            self.sudoku[i] = row
+        return self.sudoku
+
     def check_solution(self):
         solved = True
-        for i in range(0,8):
+        for i in range(0,9):
             if "0" in self.sudoku[i]:
                 solved = False
         return solved
@@ -77,15 +112,31 @@ class Sudoku:
 #TODO: jakis intuicyjny sposob wprowadzania danych
 
 def check_conflicts(values):
-    for i in range(int(values)):
+    for i in range(len(values)):
         if values[i] != "0":
+            #print('co ' + values[i])
+            #print('ile ' + str(values.count(values[i])))
             if values.count(values[i]) > 1:
                 return True
-            return False
+    return False
+
+"""
+table = ['084000013',
+        '200030600',
+        '600509002',
+        '002000469',
+        '700000000',
+        '000280000',
+        '020700000',
+        '008005906',
+        '500020307']
+
+list = ['00', '02', '03', '04', '05', '06', '07', '08', '10', '12', '14']
+values = ['1', '1', '1']
+s = Sudoku(table)
+print(s.print_sudoku())
 
 
 
-
-#s = Sudoku(9,9)
-#print(s.read_empty_fields())
-#print("0" in s.sudoku[1])
+"""
+print(check_conflicts('561928387'))
